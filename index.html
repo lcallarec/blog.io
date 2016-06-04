@@ -7,7 +7,7 @@ subtitle: About gnome ('n goblin) development
 <div class="posts-list">
   {% for post in paginator.posts %}
   <article class="post-preview">
-    <a href="{{ post.url | prepend: site.baseurl }}">
+    <a href="{{ post.url | prepend: url }}">
 	  <h2 class="post-title">{{ post.title }}</h2>
 
 	  {% if post.subtitle %}
@@ -23,7 +23,7 @@ subtitle: About gnome ('n goblin) development
 
     <div class="post-entry">
       {{ post.content | truncatewords: 50 | strip_html | xml_escape}}
-	  <a href="{{ post.url | prepend: site.baseurl }}" class="post-read-more">[Read&nbsp;More]</a>
+	  <a href="{{url}}{{ post.url }}" class="post-read-more">[Read&nbsp;More]</a>
     </div>
 
    </article>
