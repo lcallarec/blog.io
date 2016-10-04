@@ -21,7 +21,8 @@ description: About Gnome desktop evironment development in particular and softwa
 # --- Navigation bar options --- #
 
 # List of links in the navigation bar
-navbar-links: []
+navbar-links:
+  Homepage: "index.html"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
