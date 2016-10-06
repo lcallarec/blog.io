@@ -3,8 +3,8 @@
 # url is the full website URL
 # baseurl is the website's URL without the hostname
 
-url: "http://lcallarec.github.io/"
-baseurl: "/"
+url: "http://lcallarec.github.io"
+baseurl: ""
 
 gems: [jekyll-paginate]
 
@@ -16,12 +16,13 @@ gems: [jekyll-paginate]
 title: Gnome (& goblin)
 
 # Short description of your site
-description: About gnome ('n goblin) development
+description: About Gnome desktop evironment development in particular and software engineering. Stay crousty, even in milk.
 
 # --- Navigation bar options --- #
 
 # List of links in the navigation bar
-navbar-links: []
+navbar-links:
+  Homepage: "index.html"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
