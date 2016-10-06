@@ -16,11 +16,16 @@
     color: white;
 }
 
+.container {
+    max-width: 970px;
+}
+
+
 /* --- General --- */
 
 body {
-  font-family: 'Lora', 'Times New Roman', serif;
-  font-size: 18px;
+  font-family: Arial, "sans-serif";
+  font-size: 15px;
   color: #404040;
   position: relative;
   background: #FFF;
