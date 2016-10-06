@@ -53,7 +53,8 @@ footer-links-active:
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "gnomeandgoblins.net"
+url-pretty: "lcallarec.github.io"
+
 
 # --- Misc --- #
 
