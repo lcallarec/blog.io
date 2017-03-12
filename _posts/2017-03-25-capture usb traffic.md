@@ -151,16 +151,19 @@ Device Descriptor:
 {% endhighlight %}
 
 # LibUSB
-//Write code that send / Mimic
 
-I decided to use Vala as language : it's very close to the C libraries, and it's much more readble than C.
+I decided to use Vala as language to write the  POC: it remaing very close to C APIs, is far faster to write and much more readble than C.
 
 ## Install Vala and other dependencies
 
+On an apt package manager based system :
+{% highlight bash %}
+$ usdo apt-get install vala libusb-1.0-0 libusb-1.0-0-dev libusb-dev
+{% endhighlight %}
+
 ## Vala code
 
-## Run
-
+main.vala :
 {% highlight vala %}
 
 LibUSB.Device[] devices;
@@ -205,8 +208,14 @@ if (null != luxafor)
 
 {% endhighlight %}
 
+## Compile and run
 
+Compile :
+{% highlight bash %}
+$ valac --pkg libusb-1.0 main.vala -o usb
+{% endhighlight %}
 
-
-
-
+Run :
+{% highlight bash %}
+$ sudo ./usb
+{% endhighlight %}
