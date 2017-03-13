@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Capture USB traffic and use LibUSB to mimic host - device communication (Vala / Luxafor)
+title: Capture USB traffic and use LibUSB to mimic host - device communications (Vala / Luxafor)
 subtitle: 
 ---
 
@@ -67,7 +67,7 @@ The most important information is the URB_INTERUPT packet sent from host to USB 
 Bingo !
 
 * The packet sent is seven 8-bits data long
-* There's two `ff`. Does one of them color be the `255` (`0xff`) I set for the red channel, if there's a red channel ? Simple test : what if I switch color to `-red=255, --green=127, --blue=64` ? If I'm guessing right, Luxafor should sniff this hexadecimal values 
+* There's two `ff`. Does one of them color be the `255` (`0xff`) I set for the red channel, if there's a red channel ? Simple test : what if I switch color to `-red=255, --green=127, --blue=64` ? If I'm guessing right, Luxafor should sniff these hexadecimal values 
 
 {% highlight R %}
 ff 7f 40
@@ -158,7 +158,7 @@ I decided to use Vala as language to write the  POC: it remaing very close to C 
 
 On an apt package manager based system :
 {% highlight bash %}
-$ usdo apt-get install vala libusb-1.0-0 libusb-1.0-0-dev libusb-dev
+$ sudo apt-get install vala libusb-1.0-0 libusb-1.0-0-dev libusb-dev
 {% endhighlight %}
 
 ## Vala code
@@ -166,44 +166,53 @@ $ usdo apt-get install vala libusb-1.0-0 libusb-1.0-0-dev libusb-dev
 main.vala :
 {% highlight vala %}
 
-LibUSB.Device[] devices;
-context.get_device_list (out devices);
-			
-int i = 0;
-LibUSB.Device luxafor;
-while (devices[i] != null)
+int main(string[] args)
 {
-	var dev = devices[i];
-	LibUSB.DeviceDescriptor desc = LibUSB.DeviceDescriptor (dev);
-	if (desc.idVendor == 0x04d8 && desc.idProduct == 0xf372)
+	LibUSB.Context context;
+	LibUSB.Device[] devices;
+	LibUSB.DeviceHandle handle;
+	LibUSB.Device? luxafor = null;
+
+	LibUSB.Context.init(out context);
+	context.get_device_list (out devices);
+	
+	int i = 0;
+	while (devices[i] != null)
 	{
-		luxafor = dev;
-		break;
-	}
-	i++;
-}		
+		var dev = devices[i];
+		LibUSB.DeviceDescriptor desc = LibUSB.DeviceDescriptor (dev);
+		if (desc.idVendor == 0x04d8 && desc.idProduct == 0xf372)
+		{
+			luxafor = dev;
+			break;
+		}
+		i++;
+	}		
 
-if (null != luxafor) 
-{
-
-	int result = luxafor.open(out handle);
-	if (result != 0) {
-		return 1;
-	}
-
-	handle.detach_kernel_driver(0);
-			
-	int retries = 100;
-	int claim_device_result;
-	while ((claim_device_result = handle.claim_interface(0)) != 0 && retries-- > 0) {
-		handle.detach_kernel_driver(Luxafor.DEVICE_INTERFACE_NUMBER);
-	}
-
-	if (claim_device_result != 0)
+	if (null != luxafor) 
 	{
-		int len;
-		handle.bulk_transfer(1, data, out len, Luxafor.WRITE_TIMEOUT);
+
+		int result = luxafor.open(out handle);
+		if (result != 0) {
+			return 1;
+		}
+
+		handle.detach_kernel_driver(0);
+				
+		int retries = 1000;
+		int claim_device_result;
+		while ((claim_device_result = handle.claim_interface(0)) != 0 && retries-- > 0) {
+			handle.detach_kernel_driver(0);
+		}
+
+		if (claim_device_result == 0)
+		{
+			int len;
+			handle.bulk_transfer(1, {0x01, 0xff, 0xff, 0x7f, 0x40, 0x00, 0x00}, out len, 10);
+		}
 	}
+
+	return 0;
 }
 
 {% endhighlight %}
@@ -219,3 +228,9 @@ Run :
 {% highlight bash %}
 $ sudo ./usb
 {% endhighlight %}
+
+# Bingo !
+
+
+
+The --Luxafor__ color is now `--red=255 --green=127 --blue=64`, as expected !
