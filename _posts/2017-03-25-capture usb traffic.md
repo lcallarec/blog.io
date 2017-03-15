@@ -231,6 +231,4 @@ $ sudo ./usb
 
 # Bingo !
 
-
-
 The --Luxafor__ color is now `--red=255 --green=127 --blue=64`, as expected !
