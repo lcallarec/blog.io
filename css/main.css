@@ -575,6 +575,11 @@ table tr td :last-child {
   margin-bottom: 0;
 }
 
+# Custom
 .blog-post h1 {
   font-size: 25px;
+}
+
+.highlight pre {
+    font-size: 13px;
 }
