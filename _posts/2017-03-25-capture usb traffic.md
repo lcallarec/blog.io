@@ -1,18 +1,24 @@
 ---
 layout: post
 title: Capture USB traffic and use LibUSB to mimic host - device communications (Vala / Luxafor)
-subtitle: 
+subtitle:
 ---
 
 # Purpose
 
-I have [Luxafor](http://www.luxafor.fr/products/) device and I want to play with it. I know that there's at least two libraries, written for [nodejs](https://github.com/iamthefox/luxafor) and for [python](https://github.com/vmitchell85/luxafor-python). But the challenge here is to face a problem and resolve it. After all, it doesn't look so hard, it's basically binary data sent over an USB device.
+I'm sometimes using a __[Luxafor](http://www.luxafor.fr/products/)__ device at work, and I finally bought one for the fun - because I guess that there's something interesting to do with it. Luxafor only provides clients for _Macos_ and _Windows_, so I could write a **Luxafor** client for _Linux_, couldn't I ?
 
-Sadly, Luxafor only provides softwares for Macos and Windows. As it's much easier to sniff USB traffic on Windows than on Linux, let's go on Windows. 
+I knew that there was, at that time, at least two libraries, written for __[nodejs](https://github.com/iamthefox/luxafor)__ and for __[python](https://github.com/vmitchell85/luxafor-python)__. But that's not fun, the challenge is elsewhere :p
+
+It doesn't look so hard, it's basically binary data sent over an USB device, isn't it ?
+
+This start by installing an official client, plug the device into the USB port, and capture binary data sent from the client to the device.
+
+Sadly, it's far much easier to sniff USB traffic on _Windows_ than on _Linux_, let's go on _Windows_.
 
 # Sniff USB traffic (on Windows, but not really)
 
-I thought that I'll install a Windows for that purpose, but I definitively abandoned that idea. No way. So, let's say there's an official Luxafor client for Ubuntu. 
+I thought that I'll install a Windows for that purpose, but I definitively abandoned that idea. No way. So, let's say there's an official Luxafor client for Ubuntu.
 
 ## Install Wireshark
 
@@ -58,7 +64,7 @@ When the Luxafor change to red, Wireshark has sniffed you packets :
 
 ![Sniff]({{ site.url }}/assets/2017-03-25/wireshark-sniff.png)
 
-The most important information is the URB_INTERUPT packet sent from host to USB device. The leftover capture data are the actual data that have been sent to the USB device. 
+The most important information is the URB_INTERUPT packet sent from host to USB device. The leftover capture data are the actual data that have been sent to the USB device.
 
 {% highlight R %}
 01 ff ff 00 00 00 00
@@ -67,7 +73,7 @@ The most important information is the URB_INTERUPT packet sent from host to USB 
 Bingo !
 
 * The packet sent is seven 8-bits data long
-* There's two `ff`. Does one of them color be the `255` (`0xff`) I set for the red channel, if there's a red channel ? Simple test : what if I switch color to `-red=255, --green=127, --blue=64` ? If I'm guessing right, Luxafor should sniff these hexadecimal values 
+* There's two `ff`. Does one of them color be the `255` (`0xff`) I set for the red channel, if there's a red channel ? Simple test : what if I switch color to `-red=255, --green=127, --blue=64` ? If I'm guessing right, Luxafor should sniff these hexadecimal values
 
 {% highlight R %}
 ff 7f 40
@@ -103,15 +109,15 @@ $ sudo modprobe -r usbmon
 
 # Write a Vala script that does the job
 
-Before I strat, I read chunks of documentation from [LibUSB](http://libusb.info/). I learnt that Prior to connect to an USB device, I need to find the vendorID and productID of the Luxafor device.
+Before I start, I read chunks of documentation from [LibUSB](http://libusb.info/). I learnt that Prior to connect to an USB device, I need to find the vendorID and productID of the Luxafor device.
 
 ## Find USB vendorID / productID
 
-Capture with `lusb` command the list of connected device - with the Luxafor un-plugged, and re-fetch the list with the Luxafor plugged to guess which one is the device you're looking for : 
+Capture with `lusb` command the list of connected device - with the Luxafor un-plugged, and re-fetch the list with the Luxafor plugged to guess which one is the device you're looking for :
 
 {% highlight bash %}
 $ lsusb
-Bus 002 Device 005: ID 04d8:f372 Microchip Technology, Inc. 
+Bus 002 Device 005: ID 04d8:f372 Microchip Technology, Inc.
 {% endhighlight %}
 
 `04d8:f372` are respectively vendorID and productID information we're looking for. Nice.
@@ -119,22 +125,22 @@ Bus 002 Device 005: ID 04d8:f372 Microchip Technology, Inc.
 {% highlight bash %}
 $ lsusb -vd 04d8:f372
 
-Bus 002 Device 005: ID 04d8:f372 Microchip Technology, Inc. 
+Bus 002 Device 005: ID 04d8:f372 Microchip Technology, Inc.
 Couldn't open device, some information will be missing
 Device Descriptor:
   bLength                18
   bDescriptorType         1
   bcdUSB               2.00
   bDeviceClass            0 (Defined at Interface level)
-  bDeviceSubClass         0 
-  bDeviceProtocol         0 
+  bDeviceSubClass         0
+  bDeviceProtocol         0
   bMaxPacketSize0         8
   idVendor           0x04d8 Microchip Technology, Inc.
-  idProduct          0xf372 
+  idProduct          0xf372
   bcdDevice            0.01
-  iManufacturer           1 
-  iProduct                2 
-  iSerial                 0 
+  iManufacturer           1
+  iProduct                2
+  iSerial                 0
   bNumConfigurations      1
   Configuration Descriptor:
     bLength                 9
@@ -142,7 +148,7 @@ Device Descriptor:
     wTotalLength           41
     bNumInterfaces          1
     bConfigurationValue     1
-    iConfiguration          0 
+    iConfiguration          0
     bmAttributes         0xa0
       (Bus Powered)
       Remote Wakeup
@@ -175,7 +181,7 @@ int main(string[] args)
 
 	LibUSB.Context.init(out context);
 	context.get_device_list (out devices);
-	
+
 	int i = 0;
 	while (devices[i] != null)
 	{
@@ -189,7 +195,7 @@ int main(string[] args)
 		i++;
 	}		
 
-	if (null != luxafor) 
+	if (null != luxafor)
 	{
 
 		int result = luxafor.open(out handle);
@@ -198,7 +204,7 @@ int main(string[] args)
 		}
 
 		handle.detach_kernel_driver(0);
-				
+
 		int retries = 1000;
 		int claim_device_result;
 		while ((claim_device_result = handle.claim_interface(0)) != 0 && retries-- > 0) {
