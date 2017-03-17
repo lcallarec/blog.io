@@ -1,10 +1,17 @@
 ---
 layout: post
-title: Capture USB traffic and use LibUSB to mimic host - device communications (Vala / Luxafor)
-subtitle:
+title: Write your own USB client
+subtitle: With Wireshark, Luxafor & Vala to the rescue
+tags:
+  - USB
+  - Luxafor
+  - Vala
+  - Wireshark
 ---
 
-# Purpose
+<em id="tags-title">Tags :</em> {% for tag in page.tags %}<span id="tags-items">{{ tag }} {% endfor%} </span>
+
+# Purposes
 
 I'm sometimes using a __[Luxafor](http://www.luxafor.fr/products/)__ device at work, and I finally bought one for the fun - because I guess that there's something interesting to do with it. Luxafor only provides clients for _Macos_ and _Windows_, so I could write a **Luxafor** client for _Linux_, couldn't I ?
 
@@ -107,69 +114,41 @@ To clore your monitoring session in a clean way,, unload the __usbmod__ module :
 $ sudo modprobe -r usbmon
 {% endhighlight %}
 
-# Write a Vala script that does the job
+# Write the client
 
-Before I start, I read chunks of documentation from [LibUSB](http://libusb.info/). I learnt that Prior to connect to an USB device, I need to find the vendorID and productID of the Luxafor device.
+In this chapter, we'll write a __[Vala](https://wiki.gnome.org/Projects/Vala)__ program that will try to change the __Luxafor__ color.
+
+If you want to fully understand the next, let me suggesting to read chunks of documentation from [LibUSB](http://libusb.info/). It's what I did, and I learnt that prior to connect to an USB device, I have to find the __vendorID__ and __productID__ of the device.
 
 ## Find USB vendorID / productID
 
 Capture with `lusb` command the list of connected device - with the Luxafor un-plugged, and re-fetch the list with the Luxafor plugged to guess which one is the device you're looking for :
 
 {% highlight bash %}
-$ lsusb
-Bus 002 Device 005: ID 04d8:f372 Microchip Technology, Inc.
+$ lsusb > unplugged
+# Plug your device
+$ lsusb > plugged
+# Don't remove any USB device a that time :p
+$ diff plugged unplugged
+1d0 < Bus 002 Device 008: ID 04d8:f372 Microchip Technology, Inc.
 {% endhighlight %}
 
-`04d8:f372` are respectively vendorID and productID information we're looking for. Nice.
+We've got the Luxafor device. `04d8:f372` are respectively the __vendorID__ and the __productID__ we're looking for.
 
-{% highlight bash %}
-$ lsusb -vd 04d8:f372
+## Write the client
 
-Bus 002 Device 005: ID 04d8:f372 Microchip Technology, Inc.
-Couldn't open device, some information will be missing
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass            0 (Defined at Interface level)
-  bDeviceSubClass         0
-  bDeviceProtocol         0
-  bMaxPacketSize0         8
-  idVendor           0x04d8 Microchip Technology, Inc.
-  idProduct          0xf372
-  bcdDevice            0.01
-  iManufacturer           1
-  iProduct                2
-  iSerial                 0
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength           41
-    bNumInterfaces          1
-    bConfigurationValue     1
-    iConfiguration          0
-    bmAttributes         0xa0
-      (Bus Powered)
-      Remote Wakeup
-    MaxPower              160mA
-    # ...
-{% endhighlight %}
+### Install Vala and other dependencies
 
-# LibUSB
+On an apt package manager based system, it's really straight forward :
 
-I decided to use Vala as language to write the  POC: it remaing very close to C APIs, is far faster to write and much more readble than C.
-
-## Install Vala and other dependencies
-
-On an apt package manager based system :
 {% highlight bash %}
 $ sudo apt-get install vala libusb-1.0-0 libusb-1.0-0-dev libusb-dev
 {% endhighlight %}
 
 ## Vala code
 
-main.vala :
+__main.vala__
+
 {% highlight vala %}
 
 int main(string[] args)
@@ -223,18 +202,22 @@ int main(string[] args)
 
 {% endhighlight %}
 
-## Compile and run
+### Compile and run
 
-Compile :
+__Compile__
+
 {% highlight bash %}
 $ valac --pkg libusb-1.0 main.vala -o usb
 {% endhighlight %}
 
-Run :
+__Run__
+
 {% highlight bash %}
 $ sudo ./usb
 {% endhighlight %}
 
-# Bingo !
+# And there is light !
 
-The --Luxafor__ color is now `--red=255 --green=127 --blue=64`, as expected !
+__Luxafor__ start and the color change immediately to a bright color `--red=255 --green=127 --blue=64` - a bit ugly, I must say - but that was what I expected !
+
+Thanks for reading, any feedbacks or contributions via [issues](https://github.com/lcallarec/lcallarec.github.io/issues) or [pull requests](https://github.com/lcallarec/lcallarec.github.io/pulls) are welcome !
