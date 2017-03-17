@@ -30,10 +30,21 @@ body {
   position: relative;
   background: #FFF;
 }
+
+#tags-title {
+  color: #808080;
+  font-weight: bold;
+}
+
+#tags-items {
+  color: #808080;
+}
+
 p {
   line-height: 1.5;
-  margin: 30px 0;
+  margin: 20px 0;
 }
+
 p a {
   /* text-decoration: underline */
   color: #008AFF;
@@ -576,8 +587,12 @@ table tr td :last-child {
 }
 
 # Custom
-.blog-post h1 {
+article.blog-post h1 {
   font-size: 25px;
+}
+
+article.blog-post h2 {
+  font-size: 20px;
 }
 
 .highlight pre {
