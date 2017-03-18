@@ -9,8 +9,6 @@ tags:
   - Wireshark
 ---
 
-<em id="tags-title">Tags :</em> {% for tag in page.tags %}<span id="tags-items">{{ tag }} {% endfor%} </span>
-
 # Purposes
 
 I'm sometimes using a __[Luxafor](http://www.luxafor.fr/products/)__ device at work, and I finally bought one for the fun - because I guess that there's something interesting to do with it. Luxafor only provides clients for _Macos_ and _Windows_, so I could write a **Luxafor** client for _Linux_, couldn't I ?
