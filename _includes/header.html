@@ -37,7 +37,9 @@
 
 		  {% if include.type == "post" %}
 		  <span class="post-meta">Posted on {{ page.date | date: "%B %-d, %Y" }}</span>
-      <em id="tags-title">Tags :</em> {% for tag in page.tags %}<span id="tags-items">{{ tag }} {% endfor%} </span>
+      {% if page.tags.size > 0 %}
+        <em id="tags-title">Tags :</em> {% for tag in page.tags %}<span id="tags-items">{{ tag }} {% endfor%} </span>
+      {% endif %}
       {% endif %}
         </div>
       </div>
