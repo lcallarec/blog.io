@@ -54,7 +54,7 @@ $ sudo adduser $(whoami) vboxusers
 
 * Once done, start the VM and launch the Luxafor client.
 
-## Load usbmon Kernel module & start Wireshark
+## Register usbmon Kernel module & start Wireshark
 
 The following command will register the USBmonitor module to extend the Linux Kernel :
 
@@ -129,9 +129,9 @@ The payload sent over the USB device is made of 8 bytes :
 * sixth byte : unknown meaning
 * seventh byte : unknown meaning
 
-## Unload usbmon Kernel module
+## Unregister usbmon Kernel module
 
-To close your monitoring session in a clean way, unload the __usbmod__ module :
+To close your monitoring session in a clean way, unregister the __usbmod__ module :
 
 {% highlight bash %}
 $ sudo modprobe -r usbmon
