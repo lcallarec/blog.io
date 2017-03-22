@@ -50,7 +50,7 @@ $ sudo adduser $(whoami) vboxusers
 
 * Open box settings, open the *USB* tab, activate USB 2.0 (EHCI) and add the device :
 
-![]({{ site.url }}/assets/2017-03-25/virtualbox-usb-forwarding.png)
+![]({{ site.url }}/assets/2017-03-22/virtualbox-usb-forwarding.png)
 
 * Once done, start the VM and launch the Luxafor client.
 
@@ -69,11 +69,11 @@ $ sudo wireshark
 
 ## Find in which monitor the Luxafor is plugged
 
-![interfaces]({{ site.url }}/assets/2017-03-25/wireshark-ready.png)
+![interfaces]({{ site.url }}/assets/2017-03-22/wireshark-ready.png)
 
 When Wireshark starts, you'll see the live traffic on each interfaces that can be sniffed by the tool. The __usbmon2__ traffic pikes matches exactly the time when I changed the color of the device from the Windows client :
 
-![interfaces]({{ site.url }}/assets/2017-03-25/wireshark-usbmon-list.png)
+![interfaces]({{ site.url }}/assets/2017-03-22/wireshark-usbmon-list.png)
 
 ### Capture Live USB traffic
 
@@ -85,7 +85,7 @@ __Change Luxafor color and analyze the payload__
 
 Change the Luxafor color to blue ; when color change, _Wireshark_ has captured you packets :
 
-![Sniff]({{ site.url }}/assets/2017-03-25/wireshark-capture-blue.png)
+![Sniff]({{ site.url }}/assets/2017-03-22/wireshark-capture-blue.png)
 
 The most important information is the *URB_INTERRUPT out*  packet sent from host to USB device. The leftover capture data are the actual payload that has been sent to the USB device :
 
@@ -105,11 +105,11 @@ Bingo !
 
 Let's try (... but the Windows *Luxafor* client doesn't allow accurate settings).
 
-![Sniff again]({{ site.url }}/assets/2017-03-25/luxafor-client-yellow.png)
+![Sniff again]({{ site.url }}/assets/2017-03-22/luxafor-client-yellow.png)
 
 Guess what :
 
-![Sniff again]({{ site.url }}/assets/2017-03-25/wireshark-capture-yellow.png)
+![Sniff again]({{ site.url }}/assets/2017-03-22/wireshark-capture-yellow.png)
 
 Lucky man :
 
