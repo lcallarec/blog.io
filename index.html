@@ -19,6 +19,9 @@ subtitle: About GNOME desktop evironment development and software engineering. S
 
     <p class="post-meta">
       Posted on {{ post.date | date: "%B %-d, %Y" }}
+      {% if post.tags.size > 0 %}
+        <em id="tags-title">Tags :</em> {% for tag in post.tags %}<span id="tags-items">{{ tag }} {% endfor%} </span>
+      {% endif %}
     </p>
 
     <div class="post-entry">
