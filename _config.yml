@@ -3,7 +3,7 @@
 # url is the full website URL
 # baseurl is the website's URL without the hostname
 
-url: "http://localhost:4000"
+url: "http://lcallarec.github.io"
 baseurl: ""
 
 gems: [jekyll-paginate]
