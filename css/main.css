@@ -22,7 +22,7 @@
 }
 
 .container {
-    max-width: 970px;
+    max-width: 775px;
 }
 
 
@@ -136,7 +136,7 @@ img {
 /* --- Navbar --- */
 
 .navbar-custom {
-  background: #035060;
+  background: #24292e;
   color: white;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin: 0;
@@ -611,4 +611,9 @@ article.blog-post h1 {
 
 .highlight pre {
     font-size: 13px;
+}
+
+blockquote p {
+  margin: 5px 0;
+  font-style: normal;
 }
