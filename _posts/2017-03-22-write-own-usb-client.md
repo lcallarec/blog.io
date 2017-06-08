@@ -15,7 +15,7 @@ I'm sometimes using a __[Luxafor](http://www.luxafor.fr/products/)__ device at w
 
 I knew that there was, at that time, at least two libraries, written for __[nodejs](https://github.com/iamthefox/luxafor)__ and for __[python](https://github.com/vmitchell85/luxafor-python)__ that could do the trick, but that's not fun, the challenge is elsewhere :p
 
-> It doesn't look so hard, it's basically binary data sent over an USB device
+> It doesn't look so hard, it's basically binary data sent over an USB device, isn't it ?
 
 The plan is all about :
 
@@ -24,7 +24,7 @@ The plan is all about :
 
 # Capture the USB traffic
 
-There's no client for Linux, so I have to capture USB packets from a _Window_ or from a _MacOs_ installation. Sadly, capturing USB communication is far too complex on a recent _MacOs_ and I lost 2 hours trying it inside a physical _Windows_ OS.
+There's no client for Linux platforms, so I have to capture USB packets from a _Windows_ or from a _MacOs_ installation. Sadly, capturing USB communication is far too complex on a recent _MacOs_ and I lost 2 hours trying it inside a physical _Windows_ OS.
 
 That's why I decided to have a _VirtualBox'ed Windows_ guest OS running inside a _Linux_ host. Best of both worlds: I can install the Luxafor client on _Windows_ and easily capture the USB on the _Linux_ host thanks to the USB forwarding capacity of *VirtualBox*.
 
@@ -95,9 +95,9 @@ The most important information is the *URB_INTERRUPT out*  packet sent from host
 
 Bingo !
 
-* The packet sent is eight 8-bits data long
+* The packet sent is eight bytes data long
 * There's one `ff` after two `00`. My guesses : the first `00` stand for *Red* channel (`0x00`), the second for the Green channel (`0x00`), and the last one for the Blue channel (`0xff`). It seems too obvious.
-* Simple test : what happens if I set the color to yellow ? If I'm guessing right, Luxafor should sniff these hexadecimal values like :
+* Simple test : what happens if I set the color to yellow ? If I'm guessing right, Luxafor should sniff hexadecimal values like :
 
 {% highlight R %}
 01 ff fa fa 00 00 00 00
