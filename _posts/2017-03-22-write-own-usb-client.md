@@ -226,7 +226,7 @@ int main(string[] args)
 {% endhighlight %}
 
 * the device is identified by `if (desc.idVendor == 0x04d8 && desc.idProduct == 0xf372)`
-* the packet will be send with this method call : `handle.bulk_transfer(1, {0x01, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00}, out len, 10);`
+* the packet will be sent with this method call : `handle.bulk_transfer(1, {0x01, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00}, out len, 10);`
 
 ## Compile and run
 
