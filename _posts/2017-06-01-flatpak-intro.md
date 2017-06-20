@@ -2,6 +2,7 @@
 layout: post
 title: Flatpak, 7 days after
 subtitle: Feedback, feeling & rock'n'roll
+image: assets/flatpak/flatpak-header.png
 tags:
   - Flatpak
   - Gnome
@@ -12,8 +13,6 @@ tags:
 ---
 
 # ... and there is Flatpak
-
-![]({{ site.url }}/assets/flatpak/flatpak-header.png){:class="img-responsive"}
 
 __[Flatpak](http://flatpak.org/)__ is
 
