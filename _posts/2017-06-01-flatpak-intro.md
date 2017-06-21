@@ -14,34 +14,37 @@ tags:
 
 # ... and there is Flatpak
 
-__[Flatpak](http://flatpak.org/)__ is
+I won't loose my time in trying to explain what is __[Flatpak](http://flatpak.org/)__. What's better than the official baseline ?
 
-> the next-generation technology for building and installing desktop applications.
+> [Flatpak] is the next-generation technology for building and installing desktop applications.
   It has the power to revolutionize the Linux desktop ecosystem.
 
-Whoaa! Looks promising !
+__[Wikipedia](https://en.wikipedia.org/wiki/Flatpak)__ give a more academic explaination :
 
-The project started to gain visibility from the end of the first half of 2016. According to Wikipedia, __[Flatpak](http://flatpak.org/)__ is
+> [Flatpak] is a software utility for software deployment, package management, and application virtualization for Linux desktop computer
 
-> a software utility for software deployment, package management, and application virtualization for Linux desktop computer
+The objective of this post is to give my feedback after having played a bit with __Flatpak__, and show you how it solved some of my problems.
 
-This last definition definitively catch the idea under __[Flatpak](http://flatpak.org/)__.
+# Feedbacks
 
-# Benefits
+Honestly, I don't like to give premature feedbacks ; they may be the most instinctive ones, but there's always a bias we've got to fight and discard.
+The only thoughts I can honestly offer is that __Flatpak__ is a suite of command-line tools involving lots of concepts. Sometimes, it's a bit rough and the documentation doesn't help so much.
 
-After playing a week with Flatpak, my first thoughts are :
+But when you get the gist, it works very well, in a predictive way.
 
-* As I like to fully understand what's lye under the hood, `flatpak` concepts are a bit tricky to catch
-* That `flatpak` command-line tool api could be improved
+# How Flatpak solved my top 4 problems
 
-Short after, I got the gist, and everything was working well, as expected.
+I like to code Vala or in C, and the trickiest parts with that kind of stack are :
 
-## Design, CI with _Travis_ and distribute a Vala application
-(but it's true for any C or C++ application as well)
+* __Design a portable application :__ Designing an application to work on multiple OS / runtimes / Linux distributions is time consuming
+* __keep the overall quality at a great level :__ In a Continuous integration workflow, the build matrix where the tests run became over complicated as compatibility / stability issues arise
+* __build & distributing applications for all :__ Building & distributing the application on multiple OS / runtimes / Linux distributions requires lots of human resources (and infrastructure)
+
+## Design a portable application
 
 ### Before Flatpak
 
-Coding a (system) application while keeping compatibilty with a wide variery of runtimes and libraries - most of the time, it's done by using conditional FLAGS - is really time consuming. Sometimes it can't be avoid, sometimes it can. We can choose to __statically link__ these libraries with our application, but there's a lot of drawbacks which make the whole somewhat not predictable.
+Coding a (system) application while keeping compatibilty with a wide variery of runtimes and libraries - most of the time, it's done by using conditional FLAGS - is really pain. Wise people can choose to __statically link__ dependencies, but there's some drawbacks which make the whole sometimes not predictable.
 
 With Flatpack, Gnome runtimes contains a wide range of libraries freezed at a known and predictable version.
 
