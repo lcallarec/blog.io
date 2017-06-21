@@ -616,4 +616,5 @@ article.blog-post h1 {
 blockquote p {
   margin: 5px 0;
   font-style: normal;
+  font-size: 15px;
 }
